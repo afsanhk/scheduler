@@ -17,8 +17,8 @@ export default function DayListItem(props) {
     let term1 = `${number}`;
     let term2 = 'spots';
 
-    number === 0? term1 = 'no' : term1 = `${number}`;
-    number === 1? term2 = 'spot' : term2 ='spots';
+    number === 0 ? term1 = 'no' : term1 = `${number}`;
+    number === 1 ? term2 = 'spot' : term2 = 'spots';
 
     return `${term1} ${term2}`; 
     
@@ -26,7 +26,7 @@ export default function DayListItem(props) {
       const formatSpots = function(number) {
         if (number === 0) {
           return "no spots remaining";
-        }
+        }Afsanu
         if (number === 1) {
           return `${number} spot remaining`;
         }
