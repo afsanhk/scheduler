@@ -14,6 +14,8 @@ onCancel:Function
 
 export default function Form (props) {
   
+  const {interviewer, onCancel, onSave, interviewers, onChange} = props;
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -28,12 +30,12 @@ export default function Form (props) {
             */
           />
         </form>
-        <InterviewerList interviewers={props.interviewers} value={interviewer} onChange={setInterviewer} />
+        <InterviewerList interviewers={interviewers} value={interviewer} onChange={onChange} />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger>Cancel</Button>
-          <Button confirm>Save</Button>
+          <Button danger onCancel={onCancel}>Cancel</Button>
+          <Button confirm onSave={onSave}>Save</Button>
         </section>
       </section>
     </main>
