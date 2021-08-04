@@ -75,12 +75,15 @@ export default function Application(props) {
   const [days, setDays] = useState([]);
   const [day, setDay] = useState('Monday');
   
+  // Gets Days Data 
   useEffect(() => {
-    const url = 'api/days';
+    const url = '/api/days';
     axios.get(url)
     .then(res => setDays(res.data))
     .catch(err => console.log(err))
   },[])
+
+  
 
   return (
     <main className="layout">
