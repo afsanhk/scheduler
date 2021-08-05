@@ -48,7 +48,30 @@ export default function Application(props) {
     
   },[])
   
-  // Initialize daily date:
+  // Function to book interview
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+
+    // Make a copy of state data for the appointment with that specific id and the interview sublevel data
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    // Make a copy of the state data for all appointments and insert the appointment for that single id (above)
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState({
+      ...state, 
+      appointments      
+    })
+
+  }
+
+  // Initialize daily data:
   let dailyAppointments = [];
   let dailyInterviewers = [];
 
@@ -64,6 +87,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers} 
+        bookInterview={bookInterview}
       />
     )
   });
