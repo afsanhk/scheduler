@@ -11,9 +11,7 @@ import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment (props) {
   
-  const { time, interview } = props;
-  // Temporary
-  let interviewers = [];
+  const { time, interview, interviewers } = props;
 
   // Mode Constants
   const EMPTY = "EMPTY";

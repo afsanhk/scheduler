@@ -37,7 +37,7 @@ export function getInterviewersForDay(state,day) {
 
   // Only map if a day was found, otherwise return an empty array.
   if(Object.keys(filteredDay).length) {
-    // In map, el refers to the appointment number, so appointments[el] accesses the appointment data from state.    
+    // In map, el refers to the appointment number, so interviewers[el] accesses the interviewers data from state.    
     output = filteredDay[0].interviewers.map (el => state.interviewers[el]); 
   }
   
