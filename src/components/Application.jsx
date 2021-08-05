@@ -6,67 +6,7 @@ import DayList from "./DayList";
 
 import "components/Application.scss";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay } from "helpers/selectors";
-
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-// },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 3,
-//     time: "2pm"
-//   },
-//   {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Afsanul Khan",
-//       interviewer: {
-//         id: 3, 
-//         name: "Mildred Nazir", 
-//         avatar: "https://i.imgur.com/T2WwVfS.png" 
-//       }
-//     }
-//   },
-//   {
-//     id: 5,
-//     time: "4pm",
-//     interview: {
-//       student: "Anika Tahsin",
-//       interviewer: {
-//         id: 4, 
-//         name: "Cohana Roy", 
-//         avatar: "https://i.imgur.com/FK8V841.jpg"
-//       }
-//     }
-//   },
-//   {
-//     id: "last",
-//     time: "5pm",
-//     interview: {
-//       student: "Serajum Monira",
-//       interviewer: {
-//         id: 4, 
-//         name: "Cohana Roy", 
-//         avatar: "https://i.imgur.com/FK8V841.jpg"
-//       }
-//     }
-//   }
-// ];
-
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 export default function Application(props) {
   // Old States
@@ -78,7 +18,8 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday", 
     days: [], 
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
   // Basically, only impact the intended state variable without impacting the rest of the 'state' variables.
@@ -103,7 +44,8 @@ export default function Application(props) {
       setState(prev => ({
         ...prev,
         days: all[0].data,
-        appointments: all[1].data
+        appointments: all[1].data,
+        interviewers: all[2].data
       }))
     })
     
@@ -111,10 +53,17 @@ export default function Application(props) {
   
   dailyAppointments = getAppointmentsForDay(state, state.day); 
 
-  const appointmentItem = dailyAppointments
-    .map(appointment => {
-      return <Appointment key={appointment.id} {...appointment}/>
-    });
+  const appointmentItem = dailyAppointments.map(appointment => {
+    const interview = getInterview(state, appointment.interview);
+    return (
+      <Appointment 
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview} 
+      />
+    )
+  });
   
   return (
     <main className="layout">
