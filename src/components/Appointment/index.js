@@ -12,13 +12,14 @@ import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment (props) {
   
-  const { id, time, interview, interviewers, bookInterview } = props;
+  const { id, time, interview, interviewers, bookInterview, cancelInterview } = props;
 
   // Mode Constants & customHook
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
+  const DELETING = "DELETING";
 
   // Default to SHOW if interview is booked, otherwise empty.
   const { mode, transition, back } = useVisualMode(props.interview? SHOW : EMPTY)
@@ -34,7 +35,15 @@ export default function Appointment (props) {
     bookInterview(id, interview)
     .then(res => transition(SHOW))
 
-  }
+  };
+
+  // Function to run onDelete from Show.
+  function deleteAppt(appointmentId) {
+    const interview = null;
+
+    transition(DELETING);
+    cancelInterview(appointmentId, interview);
+  };
 
   return (
     <article className='appointment'>

@@ -74,6 +74,11 @@ export default function Application(props) {
     })
   }
 
+  // Function to cancel/delete and interview
+  function cancelInterview (id, interview) {
+    console.log('Inside cancelInterview', id)
+  }
+
   // Initialize daily data:
   let dailyAppointments = [];
   let dailyInterviewers = [];
@@ -83,7 +88,7 @@ export default function Application(props) {
 
   const appointmentItem = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
-    
+
     return (
       <Appointment 
         key={appointment.id}
@@ -92,6 +97,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={dailyInterviewers} 
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     )
   });
