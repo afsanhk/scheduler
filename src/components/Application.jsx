@@ -51,7 +51,6 @@ export default function Application(props) {
   // Function to book interview
   function bookInterview(id, interview) {
     console.log('Inside bookInterview', id, interview);
-
     
     return axios.put(`/api/appointments/${id}`, {interview:{...interview}})
     .then(res =>  {
@@ -82,11 +81,9 @@ export default function Application(props) {
   dailyAppointments = getAppointmentsForDay(state, state.day); 
   dailyInterviewers = getInterviewersForDay(state, state.day);
 
-  console.log('All appointments (before map):', dailyAppointments)
-
   const appointmentItem = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
-    console.log('Inside appointment mapping: ',interview);
+    
     return (
       <Appointment 
         key={appointment.id}
