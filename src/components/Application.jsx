@@ -75,8 +75,29 @@ export default function Application(props) {
   }
 
   // Function to cancel/delete and interview
-  function cancelInterview (id, interview) {
+  function cancelInterview (id) {
     console.log('Inside cancelInterview', id)
+
+    return axios.delete(`/api/appointments/${id}`)
+    .then(res =>  {
+      // Make a copy of state data for the appointment with that specific id and the interview sublevel data
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+  
+      // Make a copy of the state data for all appointments and insert the appointment for that single id (above)
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      
+      setState({
+        ...state, 
+        appointments: appointments      
+      })
+      
+    })
   }
 
   // Initialize daily data:

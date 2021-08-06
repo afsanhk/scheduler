@@ -34,24 +34,25 @@ export default function Appointment (props) {
     transition(SAVING);
     bookInterview(id, interview)
     .then(res => transition(SHOW))
-
   };
 
   // Function to run onDelete from Show.
-  function deleteAppt(appointmentId) {
-    const interview = null;
-
+  function deleteAppt() {
+    
+    console.log('inside deleteAppt', id);
     transition(DELETING);
-    cancelInterview(appointmentId, interview);
+    cancelInterview(id)
+    .then(res => transition(EMPTY));
   };
 
   return (
     <article className='appointment'>
       <Header time={time}/>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>} 
-      {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} />} 
+      {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} onDelete={deleteAppt}/>} 
       {mode === CREATE && <Form interviewers={interviewers} onSave={save} onCancel={() => back()}/>}
-      {mode === SAVING && <Status message={"Saving"} />}    
+      {mode === SAVING && <Status message={"Saving"} />}
+      {mode === DELETING && <Status message={"Deleting"}/>}    
     </article>
   )
 }
