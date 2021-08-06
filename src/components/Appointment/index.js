@@ -50,7 +50,7 @@ export default function Appointment (props) {
   return (
     <article className='appointment'>
       <Header time={time}/>
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>} \
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>}
       {/* Ask for a code review for the SHOW props.onDelete code in Show.jsx */}
       {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} onDelete={() => transition(CONFIRM)}/>} 
       {mode === CREATE && <Form interviewers={interviewers} onSave={save} onCancel={() => back()}/>}
