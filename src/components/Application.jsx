@@ -53,7 +53,7 @@ export default function Application(props) {
     console.log('Inside bookInterview', id, interview);
 
     
-    axios.put(`/api/appointments/${id}`, {interview:{...interview}})
+    return axios.put(`/api/appointments/${id}`, {interview:{...interview}})
     .then(res =>  {
       // Make a copy of state data for the appointment with that specific id and the interview sublevel data
       const appointment = {

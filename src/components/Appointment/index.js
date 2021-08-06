@@ -4,6 +4,7 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
+import Status from "./Status";
 
 import "components/Appointment/styles.scss";
 
@@ -18,6 +19,7 @@ export default function Appointment (props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
 
   // Default to SHOW if interview is booked, otherwise empty.
   const { mode, transition, back } = useVisualMode(props.interview? SHOW : EMPTY)
@@ -29,9 +31,10 @@ export default function Appointment (props) {
       interviewer
     };
 
+    transition(SAVING);
     bookInterview(id, interview)
-    // .then(res => transition(SHOW))
-    transition(SHOW);
+    .then(res => transition(SHOW))
+
   }
 
   return (
@@ -40,6 +43,7 @@ export default function Appointment (props) {
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>} 
       {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} />} 
       {mode === CREATE && <Form interviewers={interviewers} onSave={save} onCancel={() => back()}/>}
+      {mode === SAVING && <Status message={"Saving"} />}    
     </article>
   )
 }
