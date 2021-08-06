@@ -70,7 +70,6 @@ export default function Application(props) {
         ...state, 
         appointments: appointments      
       })
-
     })
   }
 
@@ -97,7 +96,7 @@ export default function Application(props) {
         appointments: appointments      
       })
       
-    })
+    }) 
   }
 
   // Initialize daily data:

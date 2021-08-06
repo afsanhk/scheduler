@@ -6,6 +6,7 @@ import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 import "components/Appointment/styles.scss";
 
@@ -23,6 +24,8 @@ export default function Appointment (props) {
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   // Default to SHOW if interview is booked, otherwise empty.
   const { mode, transition, back } = useVisualMode(props.interview? SHOW : EMPTY)
@@ -37,15 +40,17 @@ export default function Appointment (props) {
     transition(SAVING);
     bookInterview(id, interview)
     .then(res => transition(SHOW))
+    .catch(err => transition(ERROR_SAVE, true))
   };
 
   // Function to run onDelete from Show.
   function deleteAppt() {
     
     console.log('inside deleteAppt', id);
-    transition(DELETING);
+    transition(DELETING, true);
     cancelInterview(id)
-    .then(res => transition(EMPTY));
+    .then(res => transition(EMPTY))
+    .catch(err => transition(ERROR_DELETE, true))
   };
 
   return (
@@ -57,8 +62,11 @@ export default function Appointment (props) {
       {mode === CREATE && <Form interviewers={interviewers} onSave={save} onCancel={() => back()}/>}
       {mode === EDIT && <Form name={interview.student} interviewers={interviewers} interviewer={interview.interviewer.id}  onSave={save} onCancel={() => back()}/>}
       {mode === SAVING && <Status message={"Saving"} />}
-      {mode === DELETING && <Status message={"Deleting"}/>}
-      {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"} onCancel={() => back()} onConfirm={deleteAppt}/>}    
+      {mode === ERROR_SAVE && <Error message={"Could not save appointment."} onClose={back}/>}
+      {mode === DELETING && <Status message={"Deleting"} />}
+      {mode === ERROR_DELETE && <Error message={"Could not delete appointment."} onClose={back}/>}
+      {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"} onCancel={() => back()} onConfirm={deleteAppt}/>}
+          
     </article>
   )
 }
