@@ -3,11 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData () {
-
-  // Old States
-  // const [day, setDay] = useState('Monday');
-  // const [days, setDays] = useState([]);
-  // const [appointments, setAppointments] = useState({})
   
   // Replaced with state object
   const [state, setState] = useState({
@@ -19,7 +14,6 @@ export default function useApplicationData () {
 
   // Basically, only impact the intended state variable without impacting the rest of the 'state' variables.
   const setDay = day => setState({ ...state, day });
-  // const setDays = days => setState(prev => ({ ...prev, days }));
   
   // Side Effect to fetch ALL data
   useEffect(() => {
@@ -42,10 +36,39 @@ export default function useApplicationData () {
     })
     
   },[])
+
+  // Function to calculate spots remaining for a day
+  function spotsRemaining (state) {
+    // What is the current day?
+    const currentDay = state.day;
+
+    // What is the current day object?
+    const currentDayObj = state.days.find(dayObj => dayObj.name === currentDay);
+    const currentDayObjIndex = state.days.findIndex(dayObj => dayObj.name === currentDay);
+
+    // What are appointment for the current day object?
+    const listOfAppts = currentDayObj.appointments;
+
+    // Are these appointments free? Only return if null!
+    const listOfFreeAppts = listOfAppts.filter(apptId => !state.appointments[apptId].interview);
+    
+    // What are the new number of spots?
+    const newSpots = listOfFreeAppts.length;
+
+    // // Make sure not to impact state directly! Insert changes into a copy.
+    const stateCopy = { ...state }; // Makea copy of current state
+    stateCopy.days = [ ...state.days]; // Make a copy of current state days
+    const updatedDay = {...currentDayObj}; // Make a copy of the currentDayObj. Why? .filter and .find create a new array but with reference to the orignal.
+    
+    // Insert changes
+    updatedDay.spots = newSpots;
+    stateCopy.days[currentDayObjIndex] = updatedDay;
+
+    return stateCopy;
+  }
   
   // Function to book interview
   function bookInterview(id, interview) {
-    console.log('Inside bookInterview', id, interview);
     
     return axios.put(`/api/appointments/${id}`, {interview:{...interview}})
     .then(res =>  {
@@ -61,16 +84,18 @@ export default function useApplicationData () {
         [id]: appointment
       };
       
-      setState({
+      const stateCopy = {
         ...state, 
-        appointments: appointments      
-      })
+        appointments,
+      };
+
+      setState({...spotsRemaining(stateCopy)});
+
     })
   }
 
   // Function to cancel/delete and interview
   function cancelInterview (id) {
-    console.log('Inside cancelInterview', id)
 
     return axios.delete(`/api/appointments/${id}`)
     .then(res =>  {
@@ -86,10 +111,12 @@ export default function useApplicationData () {
         [id]: appointment
       };
       
-      setState({
+      const stateCopy = {
         ...state, 
-        appointments: appointments      
-      })
+        appointments,
+      };
+
+      setState({...spotsRemaining(stateCopy)});
       
     }) 
   }
