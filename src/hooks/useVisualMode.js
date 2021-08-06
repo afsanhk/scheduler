@@ -5,7 +5,7 @@ export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial); // The mode state is what is controlled in useVisualMode
   const [history, setHistory] = useState([initial]); // Tracks history of mode changes
 
-  let historyCopy = [...history]; // Everything works if I just use history. 
+  let historyCopy = [...history]; // Everything works if I just use history but make a copy so we don't affect state directly. 
   // If you enter a new mode, setState to newMode.
   const transition = (newMode, replace = false) => {
 
