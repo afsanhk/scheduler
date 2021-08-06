@@ -50,6 +50,7 @@ export default function Form (props) {
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
           <Button confirm onClick={() => onSave(name, interviewer)}>Save</Button>
+          {/* Passing arguments into onSave, which in turn calls save (index.js), which calls bookInterview (Application.js). */}
         </section>
       </section>
     </main>

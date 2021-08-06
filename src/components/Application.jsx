@@ -50,25 +50,29 @@ export default function Application(props) {
   
   // Function to book interview
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    console.log('Inside bookInterview', id, interview);
 
-    // Make a copy of state data for the appointment with that specific id and the interview sublevel data
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
+    
+    axios.put(`/api/appointments/${id}`, {interview:{...interview}})
+    .then(res =>  {
+      // Make a copy of state data for the appointment with that specific id and the interview sublevel data
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+  
+      // Make a copy of the state data for all appointments and insert the appointment for that single id (above)
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      
+      setState({
+        ...state, 
+        appointments: appointments      
+      })
 
-    // Make a copy of the state data for all appointments and insert the appointment for that single id (above)
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    setState({
-      ...state, 
-      appointments      
     })
-
   }
 
   // Initialize daily data:
@@ -78,8 +82,11 @@ export default function Application(props) {
   dailyAppointments = getAppointmentsForDay(state, state.day); 
   dailyInterviewers = getInterviewersForDay(state, state.day);
 
+  console.log('All appointments (before map):', dailyAppointments)
+
   const appointmentItem = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
+    console.log('Inside appointment mapping: ',interview);
     return (
       <Appointment 
         key={appointment.id}
@@ -112,6 +119,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {appointmentItem}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );

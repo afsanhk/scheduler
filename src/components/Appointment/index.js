@@ -11,6 +11,7 @@ import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment (props) {
   
+  console.log('Inside index.js (props):', props)
   const { id, time, interview, interviewers, bookInterview } = props;
 
   // Mode Constants & customHook
@@ -28,7 +29,8 @@ export default function Appointment (props) {
       interviewer
     };
 
-    bookInterview(id, interview);
+    bookInterview(id, interview)
+    // .then(res => transition(SHOW))
     transition(SHOW);
   }
 
