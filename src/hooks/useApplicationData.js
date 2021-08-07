@@ -84,13 +84,7 @@ export default function useApplicationData () {
         [id]: appointment
       };
       
-      const stateCopy = {
-        ...state, 
-        appointments,
-      };
-
-      setState({...spotsRemaining(stateCopy)}); // Alternative: setState(spotsRemaining({...state, appointments}))
-
+      setState(spotsRemaining({...state, appointments}))
     })
   }
 
@@ -111,13 +105,7 @@ export default function useApplicationData () {
         [id]: appointment
       };
       
-      const stateCopy = {
-        ...state, 
-        appointments,
-      };
-
-      setState({...spotsRemaining(stateCopy)});
-      
+      setState(spotsRemaining({...state, appointments}));
     }) 
   }
 
