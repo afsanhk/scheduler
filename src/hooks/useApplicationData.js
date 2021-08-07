@@ -89,7 +89,7 @@ export default function useApplicationData () {
         appointments,
       };
 
-      setState({...spotsRemaining(stateCopy)});
+      setState({...spotsRemaining(stateCopy)}); // Alternative: setState(spotsRemaining({...state, appointments}))
 
     })
   }
