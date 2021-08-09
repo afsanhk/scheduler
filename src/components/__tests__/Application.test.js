@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, queryByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -20,7 +20,7 @@ describe("Application", () => {
   });
   
   it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
-    const { container } = render(<Application />);
+    const { container, debug } = render(<Application />);
 
     // Wait until Archie Cohen loads
     await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -40,8 +40,24 @@ describe("Application", () => {
     
     fireEvent.click(getByText(appointment,"Save"));
     
-    console.log(prettyDOM(appointment));
+    // After we save, we expect the 'Saving' message to appear before moving to the SHOW mode.
+    expect(getByText(appointment, "Saving")).toBeInTheDocument(); 
     
+    // Then we know the students name will show up:
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
+    // // Alternatively:
+    // await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
+    
+    // Find the day node that contains text Monday
+    const day = getAllByTestId(container,"day").find(day => queryByText(day, "Monday"));
+
+    // Checking that the day with the text "Monday" also has the text "no spots remaining".
+    expect(getByText(day,"no spots remaining")).toBeInTheDocument();
+
+    // // Debug Commands for later reference:
+    // console.log(prettyDOM(day));
+    // debug();
+    // console.log(prettyDOM(appointment));
   });
   
 })
