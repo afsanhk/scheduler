@@ -41,10 +41,11 @@ export default function Form (props) {
             placeholder="Enter Student Name" 
             value = {name}
             onChange={(event) => setName(event.target.value)}
+            data-testid="student-name-input"
           />
           
         </form>
-        <InterviewerList interviewers={interviewers.toString()} value={interviewer} onChange={setInterviewer} />
+        <InterviewerList interviewers={interviewers} value={interviewer} onChange={setInterviewer} />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
