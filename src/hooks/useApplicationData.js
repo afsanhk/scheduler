@@ -6,7 +6,7 @@ export default function useApplicationData () {
   
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-  const SET_INTERVIEW = "SET_INTERVIEW";
+  // const SET_INTERVIEW = "SET_INTERVIEW"; // Obsolete? Haven't invoked it once.
 
   // Reducer takes in a state and action. action.type determines what to execute, action.value determines which values to enact in the execution
   function reducer(state, action) {
@@ -21,9 +21,9 @@ export default function useApplicationData () {
           interviewers: action.interviewers,
           spots: action.spots
         };
-      case SET_INTERVIEW: {
-        return { ...state, appointments: action.value };
-      }
+      // case SET_INTERVIEW: { // Probably obsolete
+      //   return { ...state, appointments: action.value };
+      // }
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -31,7 +31,7 @@ export default function useApplicationData () {
     }
   }
 
-  // useReducer: Alternative to using useState method in core methods!
+  // useReducer: Alternative to using useState method utilized in core work!
   const [state, dispatch] = useReducer(reducer,{
     day: "Monday", 
     days: [], 
@@ -39,6 +39,7 @@ export default function useApplicationData () {
     interviewers: {}
   });
 
+  // setDay function:
   const setDay = day => dispatch({ type: SET_DAY, value: day });
   
   // Side Effect to fetch ALL data
@@ -108,7 +109,7 @@ export default function useApplicationData () {
         ...state.appointments,
         [id]: appointment
       };
-      
+      // Make a cope of the entire state (for use with the spotsRemaining function)
       const stateCopy = {
         ...state,
         appointments
@@ -134,7 +135,8 @@ export default function useApplicationData () {
         ...state.appointments,
         [id]: appointment
       };
-
+      
+      // Make a cope of the entire state (for use with the spotsRemaining function)
       const stateCopy = {
         ...state,
         appointments
