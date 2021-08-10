@@ -1,7 +1,5 @@
 import React from "react";
 
-// onAdd: Function (onclick Add)
-
 export default function Empty (props) {
   return (
     <main className="appointment__add">

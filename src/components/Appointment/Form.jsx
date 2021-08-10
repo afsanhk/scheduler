@@ -3,17 +3,9 @@ import React, {useState} from "react";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
-/* Props
-name:String
-interviewers:Array
-interviewer:Number
-onSave:Function
-onCancel:Function
-*/ 
-
 export default function Form (props) {
   
-  const {onCancel, onSave, interviewers} = props;
+  const {onCancel, interviewers} = props;
 
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
@@ -62,8 +54,6 @@ export default function Form (props) {
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
           <Button confirm onClick={() => validate()}>Save</Button>
-          {/* Passing arguments into onSave, which in turn calls save (index.js), which calls bookInterview (Application.js). */}
-          {/* Replaced onSave with validate() */}
         </section>
       </section>
     </main>

@@ -9,6 +9,7 @@ import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
   
+  // Import state
   const {
     state,
     setDay,
@@ -16,7 +17,7 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
-  // Initialize daily data:
+  // Daily appointment data:
   let dailyAppointments = [];
   let dailyInterviewers = [];
 
@@ -39,6 +40,7 @@ export default function Application(props) {
     )
   });
   
+  // HTML/JSX Content
   return (
     <main className="layout">
       <section className="sidebar">

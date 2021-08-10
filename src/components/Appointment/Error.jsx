@@ -1,10 +1,5 @@
 import React from "react";
 
-/*
-message:string
-onClose: function
-*/ 
-
 export default function Error (props) {
 
   return (

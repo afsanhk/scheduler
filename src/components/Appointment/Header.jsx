@@ -1,7 +1,5 @@
 import React from "react";
 
-// time: string
-
 export default function Header (props) {
 
   return (

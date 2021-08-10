@@ -1,7 +1,5 @@
 import React from "react";
 
-// message:string
-
 export default function Status (props) {
 
   return (

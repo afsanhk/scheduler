@@ -11,8 +11,10 @@ export default function useApplicationData () {
   // Reducer takes in a state and action. action.type determines what to execute, action.value determines which values to enact in the execution
   function reducer(state, action) {
     switch (action.type) {
+
       case SET_DAY:
         return { ...state, day: action.value };
+
       case SET_APPLICATION_DATA:
         return {
           ...state,
@@ -21,6 +23,7 @@ export default function useApplicationData () {
           interviewers: action.interviewers,
           spots: action.spots
         };
+
       case SET_INTERVIEW: { 
         const appointment = {
           ...state.appointments[action.id],
@@ -41,6 +44,7 @@ export default function useApplicationData () {
 
         return { ...spotsRemaining(stateCopy)};
       }
+
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -59,7 +63,7 @@ export default function useApplicationData () {
   // setDay function:
   const setDay = day => dispatch({ type: SET_DAY, value: day });
   
-  // Side Effect to fetch ALL data
+  // Side Effect to get ALL data and set state
   useEffect(() => {
     const GET_DAYS = '/api/days';
     const GET_APPOINTMENTS = '/api/appointments';

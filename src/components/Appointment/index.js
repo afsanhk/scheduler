@@ -45,8 +45,6 @@ export default function Appointment (props) {
 
   // Function to run onDelete from Show.
   function deleteAppt() {
-    
-    console.log('inside deleteAppt', id);
     transition(DELETING, true);
     cancelInterview(id)
     .then(res => transition(EMPTY))
@@ -57,7 +55,6 @@ export default function Appointment (props) {
     <article className='appointment' data-testid="appointment">
       <Header time={time}/>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>}
-      {/* Ask for a code review for the SHOW props.onDelete code in Show.jsx */}
       {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} onEdit={() => transition(EDIT)} onDelete={() => transition(CONFIRM)}/>} 
       {mode === CREATE && <Form interviewers={interviewers} onSave={save} onCancel={() => back()}/>}
       {mode === EDIT && <Form name={interview.student} interviewers={interviewers} interviewer={interview.interviewer.id}  onSave={save} onCancel={() => back()}/>}
@@ -65,8 +62,7 @@ export default function Appointment (props) {
       {mode === ERROR_SAVE && <Error message={"Could not save appointment."} onClose={back}/>}
       {mode === DELETING && <Status message={"Deleting"} />}
       {mode === ERROR_DELETE && <Error message={"Could not delete appointment."} onClose={back}/>}
-      {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"} onCancel={() => back()} onConfirm={deleteAppt}/>}
-          
+      {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"} onCancel={() => back()} onConfirm={deleteAppt}/>} 
     </article>
   )
 }

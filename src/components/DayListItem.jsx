@@ -22,19 +22,6 @@ export default function DayListItem(props) {
 
     return `${term1} ${term2}`; 
     
-    /* Alternate way
-      const formatSpots = function(number) {
-        if (number === 0) {
-          return "no spots remaining";
-        }
-        if (number === 1) {
-          return `${number} spot remaining`;
-        }
-        if (number === 2) {
-          return `${number} spots remaining`;
-        }
-      };
-    */
   }; 
 
   return (
@@ -44,5 +31,3 @@ export default function DayListItem(props) {
     </li>
   );
 }
-
-/*{props.spots} spots*/

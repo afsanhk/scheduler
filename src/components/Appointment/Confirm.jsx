@@ -2,12 +2,6 @@ import React from "react";
 
 import Button from "components/Button";
 
-/*
-message: string
-onCancel: function
-onConfirm: function
-*/
-
 export default function Confirm (props) {
   
   return (

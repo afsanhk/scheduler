@@ -1,13 +1,5 @@
 import React from "react";
 
-/*
-student: string
-interviewer: object
-onEdit: function
-onDelete: function
-*/
-
-
 export default function Show (props) {
   return (
     <main className="appointment__card appointment__card--show">
@@ -31,7 +23,6 @@ export default function Show (props) {
             src="images/trash.png"
             alt="Delete"
             onClick={props.onDelete}
-            // CODE REVIEW: above or this after implementing confirm? -> onClick={() => props.onDelete()}
           />
         </section>
       </section>
