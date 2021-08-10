@@ -57,7 +57,6 @@ describe("Form", () => {
     // Added validation for no interviewer: Needed to add this extra step as a result. 
     fireEvent.click(getByAltText("Sylvia Palmer"));
     
-    
     fireEvent.click(getByText("Save"));
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
     
