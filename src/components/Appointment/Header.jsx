@@ -1,5 +1,6 @@
 import React from "react";
 
+// This component will show time of a booked appointment. 
 export default function Header (props) {
 
   return (

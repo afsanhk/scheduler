@@ -2,6 +2,8 @@ import React from "react";
 
 import Button from "components/Button";
 
+// This component will ask for confirmation for actions (such as delete).
+
 export default function Confirm (props) {
   
   return (

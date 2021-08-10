@@ -3,6 +3,9 @@ import React, {useState} from "react";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
+// This component will show the form used to edit or create an interview.
+// Handles validation and reset. 
+
 export default function Form (props) {
   
   const {onCancel, interviewers} = props;

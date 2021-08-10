@@ -28,7 +28,7 @@ export default function Appointment (props) {
   const ERROR_DELETE = "ERROR_DELETE";
 
   // Default to SHOW if interview is booked, otherwise empty.
-  const { mode, transition, back } = useVisualMode(props.interview? SHOW : EMPTY)
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY)
 
   // Function to run onSave
   function save(name, interviewer) {
@@ -54,12 +54,21 @@ export default function Appointment (props) {
   return (
     <article className='appointment' data-testid="appointment">
       <Header time={time}/>
+      {/* Empty interview slot */}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>}
+      
+      {/* Booked interview slot */}
       {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} onEdit={() => transition(EDIT)} onDelete={() => transition(CONFIRM)}/>} 
+      
+      {/* Create or edit an interview */}
       {mode === CREATE && <Form interviewers={interviewers} onSave={save} onCancel={() => back()}/>}
       {mode === EDIT && <Form name={interview.student} interviewers={interviewers} interviewer={interview.interviewer.id}  onSave={save} onCancel={() => back()}/>}
+      
+      {/* Saving */}
       {mode === SAVING && <Status message={"Saving"} />}
       {mode === ERROR_SAVE && <Error message={"Could not save appointment."} onClose={back}/>}
+      
+      {/* Deleting */}
       {mode === DELETING && <Status message={"Deleting"} />}
       {mode === ERROR_DELETE && <Error message={"Could not delete appointment."} onClose={back}/>}
       {mode === CONFIRM && <Confirm message={"Are you sure you would like to delete?"} onCancel={() => back()} onConfirm={deleteAppt}/>} 

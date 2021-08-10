@@ -1,5 +1,6 @@
 import React from "react";
 
+// This component will show whether an action is loading or deleting. 
 export default function Status (props) {
 
   return (
