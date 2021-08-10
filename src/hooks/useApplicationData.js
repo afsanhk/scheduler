@@ -97,7 +97,6 @@ export default function useApplicationData () {
     webSocket.onmessage = function (event) {
       const msg = (event.data);
       const parsedMsg = JSON.parse(msg);
-      console.log(`Message Received: ${msg}`);
 
       if(parsedMsg.type === SET_INTERVIEW) {
         dispatch(parsedMsg);
