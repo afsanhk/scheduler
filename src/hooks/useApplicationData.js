@@ -1,19 +1,45 @@
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 
 import axios from "axios";
 
 export default function useApplicationData () {
   
-  // Replaced with state object
-  const [state, setState] = useState({
+  const SET_DAY = "SET_DAY";
+  const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+  const SET_INTERVIEW = "SET_INTERVIEW";
+
+  // Reducer takes in a state and action. action.type determines what to execute, action.value determines which values to enact in the execution
+  function reducer(state, action) {
+    switch (action.type) {
+      case SET_DAY:
+        return { ...state, day: action.value };
+      case SET_APPLICATION_DATA:
+        return {
+          ...state,
+          days: action.days,
+          appointments: action.appointments,
+          interviewers: action.interviewers,
+          spots: action.spots
+        };
+      case SET_INTERVIEW: {
+        return { ...state, appointments: action.value };
+      }
+      default:
+        throw new Error(
+          `Tried to reduce with unsupported action type: ${action.type}`
+        );
+    }
+  }
+
+  // useReducer: Alternative to using useState method in core methods!
+  const [state, dispatch] = useReducer(reducer,{
     day: "Monday", 
     days: [], 
     appointments: {},
     interviewers: {}
   });
 
-  // Basically, only impact the intended state variable without impacting the rest of the 'state' variables.
-  const setDay = day => setState({ ...state, day });
+  const setDay = day => dispatch({ type: SET_DAY, value: day });
   
   // Side Effect to fetch ALL data
   useEffect(() => {
@@ -26,14 +52,13 @@ export default function useApplicationData () {
       axios.get(GET_APPOINTMENTS),
       axios.get(GET_INTERVIEWERS)
     ]).then((all) => {
-      // Basically, only impact the intended object keys and leave the others alone.
-      setState(prev => ({
-        ...prev,
+      dispatch({
+        type: SET_APPLICATION_DATA,
         days: all[0].data,
         appointments: all[1].data,
         interviewers: all[2].data
-      }))
-    })
+      });
+    });
     
   },[])
 
@@ -84,7 +109,7 @@ export default function useApplicationData () {
         [id]: appointment
       };
       
-      setState(spotsRemaining({...state, appointments}))
+      dispatch({ type: SET_INTERVIEW, value: appointments });
     })
   }
 
@@ -105,7 +130,7 @@ export default function useApplicationData () {
         [id]: appointment
       };
       
-      setState(spotsRemaining({...state, appointments}));
+      dispatch({ type: SET_INTERVIEW, value: appointments });
     }) 
   }
 
