@@ -14,7 +14,6 @@ import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment (props) {
   
-  
   const { id, time, interview, interviewers, bookInterview, cancelInterview } = props;
   
   // Mode Constants & customHook
@@ -30,8 +29,6 @@ export default function Appointment (props) {
   
   // Default to SHOW if interview is booked, otherwise empty.
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY)
-
-  console.log('Inside index.js -- interview:', interview);
 
   // Handle stale state bugs
   useEffect(() => {
@@ -58,8 +55,6 @@ export default function Appointment (props) {
 
   // Function to run onDelete from Show.
   function deleteAppt() {
-    
-    console.log('inside deleteAppt', id);
     transition(DELETING, true);
     cancelInterview(id)
     .then(res => transition(EMPTY))
