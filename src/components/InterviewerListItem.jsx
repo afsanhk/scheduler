@@ -3,6 +3,8 @@ import React from "react";
 import "components/InterviewerListItem.scss";
 import classNames from "classnames";
 
+// This component renders each individual day in the Interviewer List. 
+
 export default function InterviewerListItem(props) {
 
   const interviewerClass = classNames({

@@ -4,6 +4,8 @@ import "components/DayListItem.scss";
 
 import classNames from "classnames";
 
+// This component renders each individual day in the Day List. 
+
 export default function DayListItem(props) {
 
   const dayClass = classNames ({

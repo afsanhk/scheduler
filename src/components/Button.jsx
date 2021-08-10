@@ -4,6 +4,8 @@ import "components/Button.scss";
 
 import classNames from "classnames";
 
+// This component is a button than can be reused based on the props passed to it. 
+
 export default function Button(props) {
    
    const buttonClass = classNames("button", {
