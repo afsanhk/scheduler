@@ -35,5 +35,4 @@ describe("Appointment", () => {
     expect(fn).toHaveReturnedWith(42);
   });
 
-
 });
