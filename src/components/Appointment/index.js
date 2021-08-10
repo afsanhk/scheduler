@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import Header from "./Header";
 import Show from "./Show";
@@ -14,8 +14,9 @@ import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment (props) {
   
+  
   const { id, time, interview, interviewers, bookInterview, cancelInterview } = props;
-
+  
   // Mode Constants & customHook
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -26,9 +27,21 @@ export default function Appointment (props) {
   const EDIT = "EDIT";
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
-
+  
   // Default to SHOW if interview is booked, otherwise empty.
-  const { mode, transition, back } = useVisualMode(props.interview? SHOW : EMPTY)
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY)
+
+  console.log('Inside index.js -- interview:', interview);
+
+  // Handle stale state bugs
+  useEffect(() => {
+    if (interview && mode === EMPTY) {
+     transition(SHOW);
+    }
+    if (interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [interview, transition, mode]);
 
   // Function to run onSave
   function save(name, interviewer) {
@@ -58,7 +71,7 @@ export default function Appointment (props) {
       <Header time={time}/>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>}
       {/* Ask for a code review for the SHOW props.onDelete code in Show.jsx */}
-      {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer} onEdit={() => transition(EDIT)} onDelete={() => transition(CONFIRM)}/>} 
+      {mode === SHOW && interview && <Show student={interview.student} interviewer={interview.interviewer} onEdit={() => transition(EDIT)} onDelete={() => transition(CONFIRM)}/>} 
       {mode === CREATE && <Form interviewers={interviewers} onSave={save} onCancel={() => back()}/>}
       {mode === EDIT && <Form name={interview.student} interviewers={interviewers} interviewer={interview.interviewer.id}  onSave={save} onCancel={() => back()}/>}
       {mode === SAVING && <Status message={"Saving"} />}

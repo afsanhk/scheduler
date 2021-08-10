@@ -6,13 +6,15 @@ export default function useApplicationData () {
   
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-  // const SET_INTERVIEW = "SET_INTERVIEW"; // Obsolete? Haven't invoked it once.
+  const SET_INTERVIEW = "SET_INTERVIEW"; 
 
   // Reducer takes in a state and action. action.type determines what to execute, action.value determines which values to enact in the execution
   function reducer(state, action) {
     switch (action.type) {
+
       case SET_DAY:
         return { ...state, day: action.value };
+
       case SET_APPLICATION_DATA:
         return {
           ...state,
@@ -21,9 +23,27 @@ export default function useApplicationData () {
           interviewers: action.interviewers,
           spots: action.spots
         };
-      // case SET_INTERVIEW: { // Probably obsolete
-      //   return { ...state, appointments: action.value };
-      // }
+
+      case SET_INTERVIEW: {
+        const appointment = {
+          ...state.appointments[action.id],
+          interview: action.interview && { ...action.interview }
+        };
+    
+        // Make a copy of the state data for all appointments and insert the appointment for that single id (above)
+        const appointments = {
+          ...state.appointments,
+          [action.id]: appointment
+        };
+        
+        // Update spots
+        const stateCopy = {
+          ...state,
+          appointments
+        };
+
+        return { ...spotsRemaining(stateCopy)};
+      }
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -44,10 +64,17 @@ export default function useApplicationData () {
   
   // Side Effect to fetch ALL data
   useEffect(() => {
+
+    // WebSocket
+    // Automatically attempt to open connection to server
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
+    // API Endpoints
     const GET_DAYS = '/api/days';
     const GET_APPOINTMENTS = '/api/appointments';
     const GET_INTERVIEWERS = '/api/interviewers'
     
+    // AXIOS Requests for Data
     Promise.all([
       axios.get(GET_DAYS),
       axios.get(GET_APPOINTMENTS),
@@ -60,7 +87,28 @@ export default function useApplicationData () {
         interviewers: all[2].data
       });
     });
-    
+
+    // On open, send a message.
+    webSocket.onopen = function (event) {
+      webSocket.send("ping");
+    };
+
+    // When receiving a message: console.log it.
+    webSocket.onmessage = function (event) {
+      const msg = (event.data);
+      const parsedMsg = JSON.parse(msg);
+      console.log(`Message Received: ${msg}`);
+
+      if(parsedMsg.type === SET_INTERVIEW) {
+        dispatch(parsedMsg);
+      };
+    };
+
+    // Callback to close webSocket at the end of useEffect
+    return function () {
+      webSocket.close();
+    };
+
   },[])
 
   // Function to calculate spots remaining for a day
@@ -94,57 +142,16 @@ export default function useApplicationData () {
   }
   
   // Function to book interview
-  function bookInterview(id, interview) {
-    
+  function bookInterview(id, interview) { 
     return axios.put(`/api/appointments/${id}`, {interview:{...interview}})
-    .then(res =>  {
-      // Make a copy of state data for the appointment with that specific id and the interview sublevel data
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview }
-      };
-  
-      // Make a copy of the state data for all appointments and insert the appointment for that single id (above)
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      // Make a cope of the entire state (for use with the spotsRemaining function)
-      const stateCopy = {
-        ...state,
-        appointments
-      }
-
-      dispatch({ type: SET_APPLICATION_DATA, ...spotsRemaining(stateCopy) });
-    })
+    .then(() => dispatch({ type: SET_INTERVIEW, id, interview}))
   }
 
   // Function to cancel/delete and interview
   function cancelInterview (id) {
-
     return axios.delete(`/api/appointments/${id}`)
-    .then(res =>  {
-      // Make a copy of state data for the appointment with that specific id and the interview sublevel data
-      const appointment = {
-        ...state.appointments[id],
-        interview: null
-      };
-  
-      // Make a copy of the state data for all appointments and insert the appointment for that single id (above)
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      
-      // Make a cope of the entire state (for use with the spotsRemaining function)
-      const stateCopy = {
-        ...state,
-        appointments
-      }
-      
-      dispatch({ type: SET_APPLICATION_DATA, ...spotsRemaining(stateCopy) });
-    }) 
+    .then(()=>dispatch({ type: SET_INTERVIEW, id, interview:null }));
   }
 
-  return { state, setDay, bookInterview, cancelInterview }
+  return { state, setDay, bookInterview, cancelInterview };
 }
