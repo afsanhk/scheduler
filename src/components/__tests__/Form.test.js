@@ -41,7 +41,7 @@ describe("Form", () => {
   
   it("can successfully save after trying to submit an empty student name", () => {
     const onSave = jest.fn();
-    const { getByText, getByPlaceholderText, queryByText, getByAltText, debug} = render(
+    const { getByText, getByPlaceholderText, queryByText, getByAltText} = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
   
