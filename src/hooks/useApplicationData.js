@@ -109,7 +109,12 @@ export default function useApplicationData () {
         [id]: appointment
       };
       
-      dispatch({ type: SET_INTERVIEW, value: appointments });
+      const stateCopy = {
+        ...state,
+        appointments
+      }
+
+      dispatch({ type: SET_APPLICATION_DATA, ...spotsRemaining(stateCopy) });
     })
   }
 
@@ -129,8 +134,13 @@ export default function useApplicationData () {
         ...state.appointments,
         [id]: appointment
       };
+
+      const stateCopy = {
+        ...state,
+        appointments
+      }
       
-      dispatch({ type: SET_INTERVIEW, value: appointments });
+      dispatch({ type: SET_APPLICATION_DATA, ...spotsRemaining(stateCopy) });
     }) 
   }
 
