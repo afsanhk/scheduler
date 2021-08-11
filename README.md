@@ -11,12 +11,13 @@ The deployed app does not integrate websockets but websockets were implemented i
 
 
 ## Major Learnings
-
+Creating a react app with create-react-app and using numerous testing libraries, the major learnings were:
 1. Creating React components, passing props and hooks (useState, useEffect, useReducer).
 2. Managing state and using custom hooks to render components and create controlled forms.
 3. Axios requests and web sockets (not in production -- branch: stretch/websockets).
 4. Immutable patterns, conditional rendering and managing DOM events.
 5. Testing with Storybook (components), Jest (unit, integration) and Cypress (End to End).
+
 
 ## Final Product
 ### Add, edit or delete an interview
