@@ -29,7 +29,7 @@ The deployed app does not integrate websockets but websockets were implemented i
 ![Error](https://media4.giphy.com/media/ZrgFcwYnOyVVp9HDy1/giphy.gif?cid=790b7611c30be1315b5c4e091a7eb2b14810f2b4afc05f1b&rid=giphy.gif&ct=g)
 
 ### Day List
-![Day List]()
+![Day List](https://github.com/afsanhk/scheduler/blob/master/docs/Day%20List.png?raw=true)
 
 ### Websockets
 No Websockets
@@ -49,6 +49,8 @@ Deleting With Websockets
 ## Setup
 
 Install dependencies with `npm install`.
+
+Note: If you are not running the deployed version, you will also need to fork the scheduler-api repo and run the DB server alongside the React app. 
 
 ## Running Webpack Development Server
 
