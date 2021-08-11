@@ -37,12 +37,15 @@ No Websockets
 ![No WebSox](https://media0.giphy.com/media/ESNLvs2C7kXUV3SzUx/giphy.gif?cid=790b76116d762f69007a08263af1e3b292e849afa5aac0cf&rid=giphy.gif&ct=g)
 
 Adding With Websockets
+
 ![WebSoxAdd](https://media4.giphy.com/media/1ZsyED6RzyGalPNwIK/giphy.gif?cid=790b761160f64233e9060af4e922a0eb31c8b98ac2122f33&rid=giphy.gif&ct=g)
 
 Editing With Websockets
+
 ![WebSoxEdit](https://media4.giphy.com/media/VqgnFW88GWDWiV7CC1/giphy.gif?cid=790b761143fe47a6fdd42f740771c9d6ef74b9ac1129b47b&rid=giphy.gif&ct=g)
 
 Deleting With Websockets
+
 ![WebSoxDelete](https://media2.giphy.com/media/Ip2W39FZwr7yq4xKtX/giphy.gif?cid=790b7611374b15329a862b11f81288667dcdc3c60f12225a&rid=giphy.gif&ct=g)
 
 
