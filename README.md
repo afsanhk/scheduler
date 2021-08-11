@@ -1,5 +1,5 @@
 # Interview Scheduler
-Scheduler is a single page React App which allows you to book appointments. 
+Interview Scheduler is a single page React App which allows you to book appointments. 
 
 Built upon an existing back-end provided by LHL during the Web Deb Bootcamp to practice React. 
 
